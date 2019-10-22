@@ -46,7 +46,7 @@ public class hiVolts extends JFrame implements KeyListener {
 				}
 			}
 		}
-		//for loop used to position each of the fences in random positions each time
+		//for loop used to position each of the fences in random positions each time the program is run
 		for(int i = 0; i<20; i++) {
 			while(true) {
 				c = rand.nextInt(9);
