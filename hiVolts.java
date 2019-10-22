@@ -22,11 +22,12 @@ public class hiVolts extends JFrame implements KeyListener {
 	boolean dead;
 	int var;
 	int first;
-
+	
+	//Sets the size of it to 12 x 12
 	int[][] boardPos = new int[12][12];
 	int[] counterPos = new int[2];
 
-	// This draws the board
+	// This draws the board 
 	public void drawboard(Graphics g) {
 		for(int col = 0; col<12; col++) {
 			for(int row = 0; row<12; row++) {
