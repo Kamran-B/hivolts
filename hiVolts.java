@@ -6,7 +6,7 @@
 // Note: more detailed comments will come later (for now I do not want to put in too many comments, as the code might
 // change)
 
-// Imports necesssary to complete this project
+// Imports
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -15,11 +15,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 public class hiVolts extends JFrame implements KeyListener {
-	
-	//instance creates new random number generator 
 	Random rand = new Random();
-	
-	//declared variables used in this program
 	int c;
 	int r;
 	int inputKey;
@@ -27,17 +23,11 @@ public class hiVolts extends JFrame implements KeyListener {
 	int var;
 	int first;
 	
-	//Arrays used to set the size of the board to 12 x 12
+	//Sets the size of the board to 12 x 12
 	int[][] boardPos = new int[12][12];
 	int[] counterPos = new int[2];
 
-	/**
-	 * This method contains several conditionals and math equations to 
-	 * set the frame of the game up
-	 * @param g Graphics are used to establish the board
-	 * including the fences, mhos, and player of the game
-	 * and are also used to position each of these objects.
-	 */
+	// This draws the board 
 	public void drawboard(Graphics g) {
 		for(int col = 0; col<12; col++) {
 			for(int row = 0; row<12; row++) {
@@ -46,15 +36,14 @@ public class hiVolts extends JFrame implements KeyListener {
 				}
 			}
 		}
-		//for loop used to position each of the fences in random positions each time the program is run
 		for(int i = 0; i<20; i++) {
 			while(true) {
 				c = rand.nextInt(9);
 				c += 2;
 				r = rand.nextInt(9);
 				r += 2;
-				if(boardPos[c][r]==0) {
-					boardPos[c][r] = 1;
+				if(boardPos[c-1][r-1]==0) {
+					boardPos[c-1][r-1] = 1;
 					break;
 				}
 			}
@@ -68,8 +57,8 @@ public class hiVolts extends JFrame implements KeyListener {
 				c += 3;
 				r = rand.nextInt(9);
 				r += 2;
-				if(boardPos[c][r]==0) {
-					boardPos[c][r] = 2;
+				if(boardPos[c-1][r-1]==0) {
+					boardPos[c-1][r-1] = 2;
 					break;
 				}
 			}
@@ -80,8 +69,8 @@ public class hiVolts extends JFrame implements KeyListener {
 			c += 2;
 			r = rand.nextInt(9);
 			r += 2;
-			if(boardPos[c][r]==0) {
-				boardPos[c][r] = 3;
+			if(boardPos[c-1][r-1]==0) {
+				boardPos[c-1][r-1] = 3;
 				counterPos[0] = c;
 				counterPos[1] = r;
 				break;
@@ -149,7 +138,7 @@ public class hiVolts extends JFrame implements KeyListener {
 
 	// NOT FINISHED - intended to move a mho
 	public void moveMho(Graphics g) {
-		for(int count = 0; count<12; count++) {
+		for(int mho = 0; mho<20; mho++) {
 			for(int col = 1; col<11; col++) {
 				for(int row = 1; row<11; row++) {
 					if(boardPos[col][row]==2) {
