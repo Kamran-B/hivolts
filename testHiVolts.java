@@ -5,6 +5,7 @@ public class testHiVolts {
 		hiVolts c = new hiVolts();
 		c.setDefaultCloseOperation(hiVolts.EXIT_ON_CLOSE);
 		c.setVisible(true);
+		c.setResizable(false);
 	}
 
 }
