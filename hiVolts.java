@@ -85,12 +85,24 @@ public class hiVolts extends JFrame implements KeyListener {
 		}
 	}
 
-	// This figures out whether or not the player (or mho) is dead at a given position
-	public boolean isdead(int newPosX, int newPosY) {
+	// This figures out whether or not the player is dead at a given position
+	public boolean isdeadPlayer(int newPosX, int newPosY) {
 		dead = false;
 		for(int col = 0; col<12; col++) {
 			for(int row = 0; row<12; row++) {
 				if((newPosX==1||newPosX==2)&&(newPosY==1||newPosY==2)) {
+					dead = true;
+				}
+			}
+		}
+		return dead;
+	}
+	
+	public boolean isdeadMho(int newPosX, int newPosY) {
+		dead = false;
+		for(int col = 0; col<12; col++) {
+			for(int row = 0; row<12; row++) {
+				if((newPosX==1&&newPosY==1)) {
 					dead = true;
 				}
 			}
@@ -138,46 +150,44 @@ public class hiVolts extends JFrame implements KeyListener {
 
 	// NOT FINISHED - intended to move a mho
 	public void moveMho(Graphics g) {
-		for(int mho = 0; mho<20; mho++) {
-			for(int col = 1; col<11; col++) {
-				for(int row = 1; row<11; row++) {
-					if(boardPos[col][row]==2) {
-						if(col==counterPos[0]) {
-							if(row<counterPos[1]) {
-								boardPos[col][row] = 0;
-								if(isdead(col, row+1)==true) {
-									g.setColor(Color.BLACK);
-									g.fillRect(calcCoord(col), calcCoord(row), 20, 20);
-									g.setColor(Color.YELLOW);
-								}
-								else {
-									boardPos[col][row+1] = 2;
-									if((counterPos[0]==col)&&(counterPos[0]==row)) {
-										// Dead
-									}
-								}
-							}
-							else if(row>counterPos[1]) {
-								boardPos[col][row] = 0;
-								if(isdead(col, row-1)==true) {
-									g.setColor(Color.BLACK);
-									g.fillRect(calcCoord(col), calcCoord(row), 20, 20);
-									g.setColor(Color.YELLOW);
-								}
-								else {
-									boardPos[col][row-1] = 2;
-									if((counterPos[0]==col)&&(counterPos[0]==row)) {
-										// Dead
-									}
-								}
-							}
-						}
-						if(row==counterPos[1]) {
-							if(col<counterPos[0]) {
-
-							}
+		for(int mho = 0; mho<12; mho++) {
+			int col = mhoPos[mho][0];
+			int row = mhoPos[mho][1];
+			if(col==counterPos[0]) {
+				if(row<counterPos[1]) {
+					boardPos[col][row] = 0;
+					if(isdeadMho(col, row+1)==true) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col), calcCoord(row), 20, 20);
+						g.setColor(Color.YELLOW);
+						boardPos[col][row] = 0;
+					}
+					else {
+						boardPos[col][row+1] = 2;
+						if((counterPos[0]==col)&&(counterPos[0]==row)) {
+							// Dead
 						}
 					}
+				}
+				else if(row>counterPos[1]) {
+					boardPos[col][row] = 0;
+					if(isdeadMho(col, row-1)==true) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col), calcCoord(row), 20, 20);
+						g.setColor(Color.YELLOW);
+						boardPos[col][row] = 0;
+					}
+					else {
+						boardPos[col][row-1] = 2;
+						if((counterPos[0]==col)&&(counterPos[0]==row)) {
+							// Dead
+						}
+					}
+				}
+			}
+			if(row==counterPos[1]) {
+				if(col<counterPos[0]) {
+
 				}
 			}
 		}
