@@ -6,7 +6,7 @@
 // Note: more detailed comments will come later (for now I do not want to put in too many comments, as the code might
 // change)
 
-// Imports
+// Imports necesssary to complete this project
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -15,7 +15,11 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 public class hiVolts extends JFrame implements KeyListener {
+	
+	//instance creates new random number generator 
 	Random rand = new Random();
+	
+	//declared variables used in this program
 	int c;
 	int r;
 	int inputKey;
@@ -23,11 +27,17 @@ public class hiVolts extends JFrame implements KeyListener {
 	int var;
 	int first;
 	
-	//Sets the size of the board to 12 x 12
+	//Arrays used to set the size of the board to 12 x 12
 	int[][] boardPos = new int[12][12];
 	int[] counterPos = new int[2];
 
-	// This draws the board 
+	/**
+	 * This method contains several conditionals and math equations to 
+	 * set the frame of the game up
+	 * @param g Graphics are used to establish the board
+	 * including the fences, mhos, and player of the game
+	 * and are also used to position each of these objects.
+	 */
 	public void drawboard(Graphics g) {
 		for(int col = 0; col<12; col++) {
 			for(int row = 0; row<12; row++) {
@@ -36,6 +46,7 @@ public class hiVolts extends JFrame implements KeyListener {
 				}
 			}
 		}
+		//for loop used to position each of the fences in random positions each time
 		for(int i = 0; i<20; i++) {
 			while(true) {
 				c = rand.nextInt(9);
