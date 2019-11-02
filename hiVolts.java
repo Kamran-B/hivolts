@@ -147,7 +147,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		g.drawLine(startX+10, startY+14, startX+15, startY+10);
 		g.setColor(Color.YELLOW);
 	}
-	
+
 	public boolean win(Graphics g) {
 		for(int i = 0; i<12; i++) {
 			if(mhoPos[i][0]!=13) {
@@ -213,16 +213,20 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				else if(row==counterPos[1]) {
 					if(col<counterPos[0]&&boardPos[col+1][row]!=2) {
 						if(isDeadMho(col+1, row)) {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
+							if(boardPos[col][row]!=2) {
+								g.setColor(Color.BLACK);
+								g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+								g.setColor(Color.YELLOW);
+							}
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
 						}
 						else {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
+							if(boardPos[col][row]!=2) {
+								g.setColor(Color.BLACK);
+								g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+								g.setColor(Color.YELLOW);
+							}
 							mho(g, calcCoord(col+1), calcCoord(row));
 							boardPos[col-1][row-1] = 0;
 							boardPos[col][row-1] = 2;
@@ -231,16 +235,20 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 					}
 					else if(col>counterPos[0]&&boardPos[col-1][row]!=2) {
 						if(isDeadMho(col-1, row)) {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
+							if(boardPos[col][row]!=2) {
+								g.setColor(Color.BLACK);
+								g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+								g.setColor(Color.YELLOW);
+							}
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
 						}
 						else {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
+							if(boardPos[col][row]!=2) {
+								g.setColor(Color.BLACK);
+								g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+								g.setColor(Color.YELLOW);
+							}
 							mho(g, calcCoord(col-1), calcCoord(row));
 							boardPos[col-1][row-1] = 0;
 							boardPos[col-2][row-1] = 2;
@@ -248,9 +256,11 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 						}
 					}
 					else if(col>counterPos[0]&&row>counterPos[1]&&boardPos[col-1][row-1]!=1) {
-						g.setColor(Color.BLACK);
-						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-						g.setColor(Color.YELLOW);
+						if(boardPos[col][row]!=2) {
+							g.setColor(Color.BLACK);
+							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							g.setColor(Color.YELLOW);
+						}
 						mho(g, calcCoord(col-1), calcCoord(row-1));
 						boardPos[col-1][row-1] = 0;
 						boardPos[col-2][row-2] = 2;
@@ -258,9 +268,11 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 						mhoPos[mho][1] -= 1;
 					}
 					else if(col<counterPos[0]&&row>counterPos[1]&&boardPos[col+1][row-1]!=1) {
-						g.setColor(Color.BLACK);
-						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-						g.setColor(Color.YELLOW);
+						if(boardPos[col][row]!=2) {
+							g.setColor(Color.BLACK);
+							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							g.setColor(Color.YELLOW);
+						}
 						mho(g, calcCoord(col-1), calcCoord(row-1));
 						boardPos[col-1][row-1] = 0;
 						boardPos[col][row-2] = 2;
@@ -496,21 +508,21 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if(testHiVolts.end||win) {
 			int x = e.getX();
-		    int y = e.getY();
-		    if((x>=518&&x<=548)||(y>=140&&y<=170)) {
-		    	notPlay = false;
-		    }
-		    
-		    for(int i = 1; i<11; i++) {
-		    	for(int a = 1; a<11; a++) {
-		    		boardPos[i][a] = 0;
-		    	}
-		    }
-		    
-		    newGame = true;
-		    testHiVolts.end = false;
-		    first = 0;
-		    repaint();
+			int y = e.getY();
+			if((x>=518&&x<=548)||(y>=140&&y<=170)) {
+				notPlay = false;
+			}
+
+			for(int i = 1; i<11; i++) {
+				for(int a = 1; a<11; a++) {
+					boardPos[i][a] = 0;
+				}
+			}
+
+			newGame = true;
+			testHiVolts.end = false;
+			first = 0;
+			repaint();
 		}
 	}
 
@@ -537,13 +549,13 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	// Paint
 	public void paint(Graphics g) {
 		g.setColor(Color.YELLOW);
-		
+
 		if(newGame) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 1000, 1000);
 			g.setColor(Color.YELLOW);
 		}
-		
+
 		if(first==0) {
 			drawboard(g);
 		}
