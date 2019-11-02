@@ -28,6 +28,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	int first;
 	boolean pTurn = true;
 	boolean newGame = true;
+	boolean win = false;
 
 	int[][] boardPos = new int[12][12];
 	int[] counterPos = new int[2];
@@ -146,6 +147,19 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		g.drawLine(startX+10, startY+14, startX+15, startY+10);
 		g.setColor(Color.YELLOW);
 	}
+	
+	public boolean win(Graphics g) {
+		for(int i = 0; i<12; i++) {
+			if(mhoPos[i][0]!=13) {
+				return false;
+			}
+		}
+		win = true;
+		g.drawString("YOU WIN", 500, 100);
+		g.drawString("Click here to play again:", 460, 120);
+		g.fillOval(518, 140, 30, 30);
+		return true;
+	}
 
 	// This calculates the graphics coordinate based on the grid place
 	public int calcCoord(int pos) {
@@ -159,8 +173,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				int col = mhoPos[mho][0];
 				int row = mhoPos[mho][1];
 				if(col==counterPos[0]) {
-					if(row<counterPos[1]) {
-						boardPos[col][row] = 0;
+					if(row<counterPos[1]&&boardPos[col][row+1]!=2) {
 						if(isDeadMho(col, row+1)) {
 							g.setColor(Color.BLACK);
 							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
@@ -176,11 +189,9 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 							boardPos[col-1][row-1] = 0;
 							boardPos[col-1][row] = 2;
 							mhoPos[mho][1] += 1;
-
 						}
 					}
-					else if(row>counterPos[1]) {
-						boardPos[col][row] = 0;
+					else if(row>counterPos[1]&&boardPos[col][row-1]!=2) {
 						if(isDeadMho(col, row-1)) {
 							g.setColor(Color.BLACK);
 							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
@@ -199,9 +210,62 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 						}
 					}
 				}
-				if(row==counterPos[1]) {
-					if(col<counterPos[0]) {
-
+				else if(row==counterPos[1]) {
+					if(col<counterPos[0]&&boardPos[col+1][row]!=2) {
+						if(isDeadMho(col+1, row)) {
+							g.setColor(Color.BLACK);
+							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							g.setColor(Color.YELLOW);
+							boardPos[col-1][row-1] = 0;
+							mhoPos[mho][0] = 13;
+						}
+						else {
+							g.setColor(Color.BLACK);
+							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							g.setColor(Color.YELLOW);
+							mho(g, calcCoord(col+1), calcCoord(row));
+							boardPos[col-1][row-1] = 0;
+							boardPos[col][row-1] = 2;
+							mhoPos[mho][0] += 1;
+						}
+					}
+					else if(col>counterPos[0]&&boardPos[col-1][row]!=2) {
+						if(isDeadMho(col-1, row)) {
+							g.setColor(Color.BLACK);
+							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							g.setColor(Color.YELLOW);
+							boardPos[col-1][row-1] = 0;
+							mhoPos[mho][0] = 13;
+						}
+						else {
+							g.setColor(Color.BLACK);
+							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							g.setColor(Color.YELLOW);
+							mho(g, calcCoord(col-1), calcCoord(row));
+							boardPos[col-1][row-1] = 0;
+							boardPos[col-2][row-1] = 2;
+							mhoPos[mho][0] -= 1;
+						}
+					}
+					else if(col>counterPos[0]&&row>counterPos[1]&&boardPos[col-1][row-1]!=1) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+						g.setColor(Color.YELLOW);
+						mho(g, calcCoord(col-1), calcCoord(row-1));
+						boardPos[col-1][row-1] = 0;
+						boardPos[col-2][row-2] = 2;
+						mhoPos[mho][0] -= 1;
+						mhoPos[mho][1] -= 1;
+					}
+					else if(col<counterPos[0]&&row>counterPos[1]&&boardPos[col+1][row-1]!=1) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+						g.setColor(Color.YELLOW);
+						mho(g, calcCoord(col-1), calcCoord(row-1));
+						boardPos[col-1][row-1] = 0;
+						boardPos[col][row-2] = 2;
+						mhoPos[mho][0] += 1;
+						mhoPos[mho][1] -= 1;
 					}
 				}
 			}
@@ -230,6 +294,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[1] -= 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void down(Graphics g) {
@@ -244,6 +309,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[1] += 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void right(Graphics g) {
@@ -258,6 +324,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[0] += 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void left(Graphics g) {
@@ -272,6 +339,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[0] -= 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void rightUp(Graphics g) {
@@ -287,6 +355,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[1] -= 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void leftUp(Graphics g) {
@@ -302,6 +371,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[1] -= 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void leftDown(Graphics g) {
@@ -317,6 +387,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[1] += 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void rightDown(Graphics g) {
@@ -332,6 +403,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[1] += 1;
 		}
 		moveMho(g);
+		win(g);
 	}
 
 	public void jump(Graphics g) {
@@ -350,11 +422,12 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counterPos[0] = c;
 			counterPos[1] = r;
 		}
-		moveMho(g);
+		win(g);
 	}
 
 	public void sit(Graphics g) {
 		moveMho(g);
+		win(g);
 	}
 
 	// Key listener
@@ -421,7 +494,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if(testHiVolts.end) {
+		if(testHiVolts.end||win) {
 			int x = e.getX();
 		    int y = e.getY();
 		    if((x>=518&&x<=548)||(y>=140&&y<=170)) {
