@@ -17,10 +17,10 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 public class hiVolts extends JFrame implements KeyListener, MouseListener {
-	
+
 	//random number generator
 	Random rand = new Random();
-	
+
 	//variables used in this program
 	int c;
 	int r;
@@ -32,7 +32,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	boolean pTurn = true;
 	boolean newGame = true;
 	boolean win = false;
-	
+
 	//Arrays used to set the size of the board to 12x12
 	int[][] boardPos = new int[12][12];
 	int[] counterPos = new int[2];
@@ -53,6 +53,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			for(int row = 0; row<12; row++) {
 				if(col==0||col==11||row==0||row==11) {
 					boardPos[col][row] = 1;
+					//fence(g, calcCoord(col), calcCoord(row));
 				}
 			}
 		}
@@ -115,24 +116,23 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		}
 	}
 
-	// This figures out whether or not the player (or mho) is dead at a given position
+	// This figures out whether or not the player is dead at a given position
 	public boolean isDeadPlayer(int newPosX, int newPosY) {
-		dead = false;
 		if((boardPos[newPosX-1][newPosY-1]==1)||(boardPos[newPosX-1][newPosY-1]==2)) {
-			dead = true;
+			return true;
 		}
-		return dead;
+		return false;
 	}
+
 	public boolean isDeadMho(int newPosX, int newPosY) {
-		dead = false;
-		for(int col = 0; col<12; col++) {
-			for(int row = 0; row<12; row++) {
-				if((boardPos[newPosX-1][newPosY-1]==1)) {
-					dead = true;
-				}
-			}
+		//for(int col = 0; col<12; col++) {
+		//	for(int row = 0; row<12; row++) {
+		if((boardPos[newPosX-1][newPosY-1]==1)) {
+			return true;
 		}
-		return dead;
+		//	}
+		//}
+		return false;
 	}
 	/**
 	 * This method contains the math to create the graphical items of the boardgame
@@ -209,7 +209,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		return 50+(pos-1)*30;
 	}
 	/**
-	 * This method is used to move each mho every single time a move is made by the player
+	 * This method is used to move each mho every single time a move is made by the player (with the exception of after a jump)
 	 * @param g Graphics are used to repaint the colors of the mhos
 	 */
 	public void moveMho(Graphics g) {
@@ -220,18 +220,21 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				if(col==counterPos[0]) {
 					if(row<counterPos[1]&&boardPos[col][row+1]!=2) {
 						if(isDeadMho(col, row+1)) {
-							//paints black color over mho to get rid of each one visually
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							//repaints the mho into a different position on the board
+							if(boardPos[col][row]!=2) {
+								//paints black color over mho to get rid of each one visually
+								g.setColor(Color.BLACK);
+								g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+							}
 							g.setColor(Color.YELLOW);
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
 						}
 						else {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
+							if(boardPos[col][row]!=2) {
+								g.setColor(Color.BLACK);
+								g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+								g.setColor(Color.YELLOW);
+							}
 							mho(g, calcCoord(col), calcCoord(row+1));
 							boardPos[col-1][row-1] = 0;
 							boardPos[col-1][row] = 2;
@@ -280,6 +283,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 							mhoPos[mho][0] += 1;
 						}
 					}
+
 					else if(col>counterPos[0]&&boardPos[col-1][row]!=2) {
 						if(isDeadMho(col-1, row)) {
 							if(boardPos[col][row]!=2) {
@@ -302,31 +306,64 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 							mhoPos[mho][0] -= 1;
 						}
 					}
-					else if(col>counterPos[0]&&row>counterPos[1]&&boardPos[col-1][row-1]!=1) {
-						if(boardPos[col][row]!=2) {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
-						}
-						mho(g, calcCoord(col-1), calcCoord(row-1));
-						boardPos[col-1][row-1] = 0;
-						boardPos[col-2][row-2] = 2;
-						mhoPos[mho][0] -= 1;
-						mhoPos[mho][1] -= 1;
-					}
-					else if(col<counterPos[0]&&row>counterPos[1]&&boardPos[col+1][row-1]!=1) {
-						if(boardPos[col][row]!=2) {
-							g.setColor(Color.BLACK);
-							g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-							g.setColor(Color.YELLOW);
-						}
-						mho(g, calcCoord(col-1), calcCoord(row-1));
-						boardPos[col-1][row-1] = 0;
-						boardPos[col][row-2] = 2;
-						mhoPos[mho][0] += 1;
-						mhoPos[mho][1] -= 1;
-					}
 				}
+				else if(col>counterPos[0]&&row>counterPos[1]&&!isDeadMho(col-1, row-1)) {
+					if(boardPos[col][row]!=2) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+						g.setColor(Color.YELLOW);
+					}
+					if(boardPos[col-1][row-1]!=1) {
+						mho(g, calcCoord(col-1), calcCoord(row-1));
+					}
+					boardPos[col-1][row-1] = 0;
+					boardPos[col-2][row-2] = 2;
+					mhoPos[mho][0] -= 1;
+					mhoPos[mho][1] -= 1;
+				}
+				else if(col<counterPos[0]&&row>counterPos[1]&&!isDeadMho(col+1, row-1)) {
+					if(boardPos[col][row]!=2) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+						g.setColor(Color.YELLOW);
+					}
+					if(boardPos[col-1][row-1]!=1) {
+						mho(g, calcCoord(col-1), calcCoord(row-1));
+					}
+					boardPos[col-1][row-1] = 0;
+					boardPos[col][row-2] = 2;
+					mhoPos[mho][0] += 1;
+					mhoPos[mho][1] -= 1;
+				}
+				else if(col>counterPos[0]&&row<counterPos[1]&&!isDeadMho(col-1, row+1)) {
+					if(boardPos[col][row]!=2) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+						g.setColor(Color.YELLOW);
+					}
+					if(boardPos[col-1][row-1]!=1) {
+						mho(g, calcCoord(col-1), calcCoord(row-1));
+					}
+					boardPos[col-1][row-1] = 0;
+					boardPos[col-2][row] = 2;
+					mhoPos[mho][0] -= 1;
+					mhoPos[mho][1] += 1;
+				}
+				else if(col<counterPos[0]&&row<counterPos[1]&&!isDeadMho(col+1, row+1)) {
+					if(boardPos[col][row]!=2) {
+						g.setColor(Color.BLACK);
+						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+						g.setColor(Color.YELLOW);
+					}
+					if(boardPos[col-1][row-1]!=1) {
+						mho(g, calcCoord(col-1), calcCoord(row-1));
+					}
+					boardPos[col-1][row-1] = 0;
+					boardPos[col][row] = 2;
+					mhoPos[mho][0] += 1;
+					mhoPos[mho][1] += 1;
+				}
+
 			}
 			if(isDeadPlayer(counterPos[0], counterPos[1])) {
 				dead(g);
@@ -590,6 +627,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	}
 	public void mouseExited(MouseEvent e) {
 	}
+
 	//paint method creates a new game depending on the user
 	public void paint(Graphics g) {
 		g.setColor(Color.YELLOW);
@@ -603,26 +641,26 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		if(first==0) {
 			drawboard(g);
 			//Instruction List
-			g.drawString("Instructions:", 50, 450);
-			g.drawString("Welcome to the HiVolts Game!", 65, 475);
-			g.drawString("The goal of the game is to try to move as many", 65, 505);
-			g.drawString("times as possible without getting hit by either", 65, 530);
-			g.drawString("an electric fence or a mho (yellow frowny faces).", 65, 555);
-			g.drawString("and attempt to get rid of as many mhos as possible.", 65, 580);
-			g.drawString("To win, you must get rid of all mhos on the map.", 65, 605);
-			g.drawString("The HiVolts game is similar to the classic PacMan", 65, 630);
-			g.drawString("game, but has a few key differences:", 65, 655);
-			g.drawString("1. J Key will move you to a random spot on the map", 70, 680);
-			g.drawString("2. S Key will keep you at the same spot", 70, 705);
-			g.drawString("NOW THAT YOU UNDERSTAND THE RULES, GO & PLAY!", 50, 730);
+			g.drawString("Instructions:", 47, 450);
+			g.drawString("Welcome to the HiVolts Game!", 62, 475);
+			g.drawString("The goal of the game is to try to move as many", 62, 505);
+			g.drawString("times as possible without getting hit by either", 62, 530);
+			g.drawString("an electric fence or a mho (yellow frowny faces).", 62, 555);
+			g.drawString("and attempt to get rid of as many mhos as possible.", 62, 580);
+			g.drawString("To win, you must get rid of all mhos on the map.", 62, 605);
+			g.drawString("To remove a mho, is must run into an electric fence", 62, 630);
+			g.drawString("There are a few things to note regarding the keys:", 62, 655);
+			g.drawString("1. J Key will move you to a random spot on the map", 67, 680);
+			g.drawString("2. S Key will keep you at the same spot", 67, 705);
+			g.drawString("NOW THAT YOU UNDERSTAND THE RULES, GO & PLAY!", 47, 730);
 			//Key Legend
 			g.drawString("Key Legend:", 500, 480);
 			g.drawLine(400, 700, 400, 450);
 			g.drawLine(700, 450, 400, 450);
-			g.drawString("W = Forward", 425, 530);
+			g.drawString("W = UP", 425, 530);
 			g.drawString("A = Left", 565, 530);
-			g.drawString("S = Right", 565, 560);
-			g.drawString("D = Sit", 425, 560);
+			g.drawString("D = Right", 565, 560);
+			g.drawString("S = Sit", 425, 560);
 			g.drawString("Q = Up & Left", 425, 590);
 			g.drawString("E = Up & Right", 565, 590);
 			g.drawString("Z = Down & Left", 425, 620);
@@ -630,7 +668,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			g.drawString("X = Down", 425, 650);
 			g.drawString("J = Jump", 565, 650);
 		}
-		
+
 		//testing all the controls and keys in the game
 		if(!testHiVolts.end) {
 
