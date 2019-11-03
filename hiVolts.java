@@ -379,6 +379,8 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		g.drawString("GAME OVER", 500, 100);
 		g.drawString("Click here to play again:", 460, 120);
 		g.fillOval(518, 140, 30, 30);
+		g.setColor(Color.BLACK);
+		g.fillRect(450, 40, 80, 10);
 	}
 	/**
 	 * This method moves player up one position from its original spot
@@ -640,6 +642,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 
 		if(first==0) {
 			drawboard(g);
+			g.drawString("Your turn", 450, 50);
 			//Instruction List
 			g.drawString("Instructions:", 47, 450);
 			g.drawString("Welcome to the HiVolts Game!", 62, 475);
