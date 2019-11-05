@@ -232,9 +232,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				if(col==counterPos[0]) {
 					if(row<counterPos[1]&&boardPos[col-1][row]!=2) {
 						//paints black color over mho to get rid of each one visually
-						g.setColor(Color.BLACK);
-						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-						g.setColor(Color.YELLOW);
+						coverSquare(g, col, row);
 						if(isDeadMho(col, row+1)) {
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
@@ -247,9 +245,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 						}
 					}
 					else if(row>counterPos[1]&&boardPos[col-1][row-2]!=2) {
-						g.setColor(Color.BLACK);
-						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-						g.setColor(Color.YELLOW);
+						coverSquare(g, col, row);
 						if(isDeadMho(col, row-1)) {
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
@@ -264,9 +260,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				}
 				else if(row==counterPos[1]) {
 					if(col<counterPos[0]&&boardPos[col][row-1]!=2) {
-						g.setColor(Color.BLACK);
-						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-						g.setColor(Color.YELLOW);
+						coverSquare(g, col, row);
 						if(isDeadMho(col+1, row)) {
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
@@ -280,9 +274,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 					}
 
 					else if(col>counterPos[0]&&boardPos[col-2][row-1]!=2) {
-						g.setColor(Color.BLACK);
-						g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-						g.setColor(Color.YELLOW);
+						coverSquare(g, col, row);
 						if(isDeadMho(col-1, row)) {
 							boardPos[col-1][row-1] = 0;
 							mhoPos[mho][0] = 13;
@@ -296,74 +288,28 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 					}
 				}
 				else if(col>counterPos[0]&&row>counterPos[1]&&!isDeadMho(col-1, row-1)&&boardPos[col-1][row-1]!=2) {
-					g.setColor(Color.BLACK);
-					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-					g.setColor(Color.YELLOW);
-					if(boardPos[col-2][row-2]!=1) {
-						mho(g, calcCoord(col-1), calcCoord(row-1));
-					}
-					boardPos[col-1][row-1] = 0;
-					boardPos[col-2][row-2] = 2;
-					mhoPos[mho][0] -= 1;
-					mhoPos[mho][1] -= 1;
+					coverSquare(g, col, row);
+					rePaintMho(g, col, row, mho, -1, -1);
 				}
 				else if(col<counterPos[0]&&row>counterPos[1]&&!isDeadMho(col+1, row-1)&&boardPos[col][row-2]!=2) {
-					g.setColor(Color.BLACK);
-					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-					g.setColor(Color.YELLOW);
-					if(boardPos[col][row-2]!=1) {
-						mho(g, calcCoord(col+1), calcCoord(row-1));
-					}
-					boardPos[col-1][row-1] = 0;
-					boardPos[col][row-2] = 2;
-					mhoPos[mho][0] += 1;
-					mhoPos[mho][1] -= 1;
+					coverSquare(g, col, row);
+					rePaintMho(g, col, row, mho, 1, -1);
 				}
 				else if(col>counterPos[0]&&row<counterPos[1]&&!isDeadMho(col-1, row+1)&&boardPos[col-2][row]!=2) {
-					g.setColor(Color.BLACK);
-					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-					g.setColor(Color.YELLOW);
-					if(boardPos[col-2][row]!=1) {
-						mho(g, calcCoord(col-1), calcCoord(row+1));
-					}
-					boardPos[col-1][row-1] = 0;
-					boardPos[col-2][row] = 2;
-					mhoPos[mho][0] -= 1;
-					mhoPos[mho][1] += 1;
+					coverSquare(g, col, row);
+					rePaintMho(g, col, row, mho, -1, 1);
 				}
 				else if(col<counterPos[0]&&row<counterPos[1]&&!isDeadMho(col+1, row+1)&&boardPos[col][row]!=2) {
-					g.setColor(Color.BLACK);
-					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-					g.setColor(Color.YELLOW);
-					if(boardPos[col][row]!=1) {
-						mho(g, calcCoord(col+1), calcCoord(row+1));
-					}
-					boardPos[col-1][row-1] = 0;
-					boardPos[col][row] = 2;
-					mhoPos[mho][0] += 1;
-					mhoPos[mho][1] += 1;
+					coverSquare(g, col, row);
+					rePaintMho(g, col, row, mho, 1, 1);
 				}
 				else if(Math.abs(counterPos[0]-col)>=Math.abs(counterPos[1]-row)&&!isDeadMho(col+greaterX, row)&&boardPos[col-1+greaterX][row-1]!=2) {
-					g.setColor(Color.BLACK);
-					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-					g.setColor(Color.YELLOW);
-					if(boardPos[col-1+greaterX][row-1]!=1) {
-						mho(g, calcCoord(col+greaterX), calcCoord(row));
-					}
-					boardPos[col-1][row-1] = 0;
-					boardPos[col+greaterX-1][row-1] = 2;
-					mhoPos[mho][0] += greaterX;
+					coverSquare(g, col, row);
+					rePaintMho(g, col, row, mho, greaterX, 0);
 				}
 				else if(Math.abs(counterPos[0]-col)<Math.abs(counterPos[1]-row)&&!isDeadMho(col, row+greaterY)&&boardPos[col-1][row-1+greaterY]!=2) {
-					g.setColor(Color.BLACK);
-					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
-					g.setColor(Color.YELLOW);
-					if(boardPos[col-1][row-1+greaterY]!=1) {
-						mho(g, calcCoord(col), calcCoord(row+greaterY));
-					}
-					boardPos[col-1][row-1] = 0;
-					boardPos[col-1][row+greaterY-1] = 2;
-					mhoPos[mho][1] += greaterY;
+					coverSquare(g, col, row);
+					rePaintMho(g, col, row, mho, 0, greaterY);
 				}
 
 			}
@@ -385,6 +331,23 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(500, 40, 80, 10);
 	}
+	
+	public void coverSquare(Graphics g, int col, int row) {
+		g.setColor(Color.BLACK);
+		g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
+		g.setColor(Color.YELLOW);
+	}
+	
+	public void rePaintMho(Graphics g, int col, int row, int mho, int upX, int upY) {
+		if(boardPos[col-1+upX][row-1+upY]!=1) {
+			mho(g, calcCoord(col+upX), calcCoord(row+upY));
+		}
+		boardPos[col-1][row-1] = 0;
+		boardPos[col-1+upX][row-1+upY] = 2;
+		mhoPos[mho][0] += upX;
+		mhoPos[mho][1] += upY;
+	}
+	
 	/**
 	 * This method moves player up one position from its original spot
 	 * @param g
