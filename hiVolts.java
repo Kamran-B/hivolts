@@ -63,10 +63,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		at random spots each time the program is run */
 		for(int i = 0; i<20; i++) {
 			while(true) {
-				c = rand.nextInt(10);
-				c += 2;
-				r = rand.nextInt(10);
-				r += 2;
+				generateRandom();
 				if(boardPos[c-1][r-1]==0) {
 					boardPos[c-1][r-1] = 1;
 					break;
@@ -81,10 +78,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		of the game randomly each time the program is run */
 		for(int i = 0; i<12; i++) {
 			while(true) {
-				c = rand.nextInt(10);
-				c += 2;
-				r = rand.nextInt(10);
-				r += 2;
+				generateRandom();
 				if(boardPos[c-1][r-1]==0) {
 					boardPos[c-1][r-1] = 2;
 					break;
@@ -97,10 +91,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		}
 		//while loop is used to position the fences on the exterior of the game
 		while(true) {
-			c = rand.nextInt(10);
-			c += 2;
-			r = rand.nextInt(10);
-			r += 2;
+			generateRandom();
 			if(boardPos[c-1][r-1]==0) {
 				boardPos[c-1][r-1] = 3;
 				counterPos[0] = c;
@@ -136,6 +127,14 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		//}
 		return false;
 	}
+	
+	public void generateRandom() {
+		c = rand.nextInt(10);
+		c += 2;
+		r = rand.nextInt(10);
+		r += 2;
+	}
+	
 	/**
 	 * This method contains the math to create the graphical items of the boardgame
 	 * @param g helps draw the lines, arcs, and ovals necessary to create the fences
@@ -357,9 +356,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]), calcCoord(counterPos[1]-1));
 			counterPos[1] -= 1;
 		}
@@ -375,9 +372,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]), calcCoord(counterPos[1]+1));
 			counterPos[1] += 1;
 		}
@@ -390,9 +385,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]+1), calcCoord(counterPos[1]));
 			counterPos[0] += 1;
 		}
@@ -405,9 +398,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]-1), calcCoord(counterPos[1]));
 			counterPos[0] -= 1;
 		}
@@ -420,9 +411,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]+1), calcCoord(counterPos[1]-1));
 			counterPos[0] += 1;
 			counterPos[1] -= 1;
@@ -436,9 +425,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]-1), calcCoord(counterPos[1]-1));
 			counterPos[0] -= 1;
 			counterPos[1] -= 1;
@@ -452,9 +439,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]-1), calcCoord(counterPos[1]+1));
 			counterPos[0] -= 1;
 			counterPos[1] += 1;
@@ -468,9 +453,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(counterPos[0]+1), calcCoord(counterPos[1]+1));
 			counterPos[0] += 1;
 			counterPos[1] += 1;
@@ -480,17 +463,12 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	}
 	//method for jumping
 	public void jump(Graphics g) {
-		c = rand.nextInt(11);
-		c += 2;
-		r = rand.nextInt(11);
-		r += 2;
+		generateRandom();
 		if(isDeadPlayer(c, r)) {
 			dead(g);
 		}
 		else {
-			g.setColor(Color.BLACK);
-			g.fillRect(calcCoord(counterPos[0])-1, calcCoord(counterPos[1])-1, 22, 22);
-			g.setColor(Color.RED);
+			coverSquare(g, counterPos[0], counterPos[1]);
 			counter(g, calcCoord(c), calcCoord(r));
 			counterPos[0] = c;
 			counterPos[1] = r;
