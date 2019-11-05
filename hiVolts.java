@@ -674,7 +674,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		if(first==0) {
 			drawboard(g);
 			g.drawString("YOUR TURN", 500, 50);
-			instructions();
+			instructions(g);
 		}
 
 		//testing all the controls and keys in the game
