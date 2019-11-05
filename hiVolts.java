@@ -343,30 +343,28 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 					mhoPos[mho][0] += 1;
 					mhoPos[mho][1] += 1;
 				}
-				// This is where I tried to implement what I told you about
-				/*else if(Math.abs(counterPos[0]-col)>=Math.abs(counterPos[1]-row)&&!isDeadMho(col+greaterX, row)&&boardPos[col-1+greaterX][row-1]!=2) {
+				else if(Math.abs(counterPos[0]-col)>=Math.abs(counterPos[1]-row)&&!isDeadMho(col+greaterX, row)&&boardPos[col-1+greaterX][row-1]!=2) {
 					g.setColor(Color.BLACK);
 					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
 					g.setColor(Color.YELLOW);
-					if(boardPos[col][row]!=1) {
+					if(boardPos[col-1+greaterX][row-1]!=1) {
 						mho(g, calcCoord(col+greaterX), calcCoord(row));
 					}
 					boardPos[col-1][row-1] = 0;
 					boardPos[col+greaterX-1][row-1] = 2;
-					mhoPos[mho][0] -= greaterX;
-					System.out.println("Moving mho at: ("+col+","+row+")"+"to: ("+(col+greaterX)+","+row+")");
+					mhoPos[mho][0] += greaterX;
 				}
 				else if(Math.abs(counterPos[0]-col)<Math.abs(counterPos[1]-row)&&!isDeadMho(col, row+greaterY)&&boardPos[col-1][row-1+greaterY]!=2) {
 					g.setColor(Color.BLACK);
 					g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
 					g.setColor(Color.YELLOW);
-					if(boardPos[col][row]!=1) {
+					if(boardPos[col-1][row-1+greaterY]!=1) {
 						mho(g, calcCoord(col), calcCoord(row+greaterY));
 					}
 					boardPos[col-1][row-1] = 0;
-					boardPos[col][row+greaterY] = 2;
+					boardPos[col-1][row+greaterY-1] = 2;
 					mhoPos[mho][1] += greaterY;
-				}*/
+				}
 
 			}
 			if(isDeadPlayer(counterPos[0], counterPos[1])) {
