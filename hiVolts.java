@@ -631,6 +631,35 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	}
 	public void mouseExited(MouseEvent e) {
 	}
+	public void instructions(Graphics g) {
+		//Instruction List
+		g.drawString("Instructions:", 47, 450);
+		g.drawString("Welcome to the HiVolts Game!", 62, 475);
+		g.drawString("The goal of the game is to try to move as many", 62, 505);
+		g.drawString("times as possible without getting hit by either", 62, 530);
+		g.drawString("an electric fence or a mho (yellow frowny faces).", 62, 555);
+		g.drawString("and attempt to get rid of as many mhos as possible.", 62, 580);
+		g.drawString("To win, you must get rid of all mhos on the map.", 62, 605);
+		g.drawString("To remove a mho, is must run into an electric fence", 62, 630);
+		g.drawString("There are a few things to note regarding the keys:", 62, 655);
+		g.drawString("1. J Key will move you to a random spot on the map", 67, 680);
+		g.drawString("2. S Key will keep you at the same spot", 67, 705);
+		g.drawString("NOW THAT YOU UNDERSTAND THE RULES, GO & PLAY!", 47, 730);
+		//Key Legend
+		g.drawString("Key Legend:", 500, 480);
+		g.drawLine(400, 700, 400, 450);
+		g.drawLine(700, 450, 400, 450);
+		g.drawString("W = UP", 425, 530);
+		g.drawString("A = Left", 565, 530);
+		g.drawString("D = Right", 565, 560);
+		g.drawString("S = Sit", 425, 560);
+		g.drawString("Q = Up & Left", 425, 590);
+		g.drawString("E = Up & Right", 565, 590);
+		g.drawString("Z = Down & Left", 425, 620);
+		g.drawString("C = Down & Right", 565, 620);
+		g.drawString("X = Down", 425, 650);
+		g.drawString("J = Jump", 565, 650);
+	}
 
 	//paint method creates a new game depending on the user
 	public void paint(Graphics g) {
@@ -645,33 +674,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		if(first==0) {
 			drawboard(g);
 			g.drawString("YOUR TURN", 500, 50);
-			//Instruction List
-			g.drawString("Instructions:", 47, 450);
-			g.drawString("Welcome to the HiVolts Game!", 62, 475);
-			g.drawString("The goal of the game is to try to move as many", 62, 505);
-			g.drawString("times as possible without getting hit by either", 62, 530);
-			g.drawString("an electric fence or a mho (yellow frowny faces).", 62, 555);
-			g.drawString("and attempt to get rid of as many mhos as possible.", 62, 580);
-			g.drawString("To win, you must get rid of all mhos on the map.", 62, 605);
-			g.drawString("To remove a mho, it must run into an electric fence", 62, 630);
-			g.drawString("There are a few things to note regarding the keys:", 62, 655);
-			g.drawString("1. J Key will move you to a random spot on the map", 67, 680);
-			g.drawString("2. S Key will keep you at the same spot", 67, 705);
-			g.drawString("NOW THAT YOU UNDERSTAND THE RULES, GO & PLAY!", 47, 730);
-			//Key Legend
-			g.drawString("Key Legend:", 500, 480);
-			g.drawLine(400, 750, 400, 450);
-			g.drawLine(700, 450, 400, 450);
-			g.drawString("W = Up", 425, 530);
-			g.drawString("A = Left", 565, 530);
-			g.drawString("D = Right", 565, 560);
-			g.drawString("S = Sit", 425, 560);
-			g.drawString("Q = Up & Left", 425, 590);
-			g.drawString("E = Up & Right", 565, 590);
-			g.drawString("Z = Down & Left", 425, 620);
-			g.drawString("C = Down & Right", 565, 620);
-			g.drawString("X = Down", 425, 650);
-			g.drawString("J = Jump", 565, 650);
+			instructions();
 		}
 
 		//testing all the controls and keys in the game
