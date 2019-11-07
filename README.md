@@ -5,8 +5,6 @@ a) Introduction
   The HiVolts class contains 
 	
 b) How this fulfills and doesn't fulfill
-
-	Requirements:
 	
 
 c)	Explanation of Current Errors
