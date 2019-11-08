@@ -8,12 +8,12 @@ a) Introduction
 	
 b) How this fulfills and doesn't fulfill requirements
 
-  Requirements:
+Requirements:
   
-  1. Recreate the HiVolts Game that was created on the PLATO system (Programmed Logic for Automated Teaching Operations)
-	
-	Our program fullfills the requirement because our game follows all the rules of the game 
-
+1. Recreate the HiVolts Game that was created on the PLATO system (Programmed Logic for Automated Teaching Operations)
+  	
+Both our HiVolts class and testHiVolts class fullfill the requirement to create the game because we pieced together every aspect of the game, including logical, graphical, and mechanical components, to produce the game. Our game properly works and follows the all the rules and circumstances that were listed in the debrief of the project. All aspects of the game work including the moving mho icons, the moving player icon, the logic behind the placing of everything on the board, the visuals of the game, and other miscellaneous things that relate to the construction of the project.
+  
 c) Explanation of Current Errors
 	
   
@@ -22,6 +22,7 @@ c) Explanation of Current Errors
 	
 d) Overview of Code Explaining the Structure of It
 
+The code starts out with all the necessary imports for this project to be completed. One of the major imports that effected the game a lot was the javax.swing.JFrame import because ultimately, this import was the foundation for the applet to appear which contained all the other parts of the game.
 	
 e) Major Challenges
   
