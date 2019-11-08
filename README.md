@@ -1,5 +1,7 @@
 Read Me: HiVolts Project
 
+Aidan Lee and Kamran Bastani
+
 a) Introduction
 	
   The HiVolts class contains 
