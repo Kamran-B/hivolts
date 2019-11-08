@@ -22,7 +22,7 @@ c) Explanation of Current Errors
 	
 d) Overview of Code Explaining the Structure of It
 
-The code starts out with all the necessary imports for this project to be completed. One of the major imports that effected the game a lot was the javax.swing.JFrame import because ultimately, this import was the foundation for the applet to appear which contained all the other parts of the game.
+The code starts out with all the necessary imports for this project to be completed. One of the major imports that effected the game a lot was the javax.swing.JFrame import because ultimately, this import was the foundation for the applet to appear which contained all the other parts of the game. After that, all the variables we declared and arrays we created which are listed under the imports which will be used later on in the code. The first method that appears in this program is the drawBoard method, which basically draws the dimensions of the game. Next, a few conditionals are in place to randomly place electrical fences on both the exterior and interior of the game. Following that are the two methods isDeadPlayer and isDeadMho. These two methods are important because they figure out whether both a mho and a player are alive or dead at a certain position of the board.
 	
 e) Major Challenges
   
