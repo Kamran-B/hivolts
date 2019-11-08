@@ -32,8 +32,8 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	boolean pTurn = true;
 	boolean newGame = true;
 	boolean win = false;
-	int greaterX = -1;
-	int greaterY = -1;
+	int greaterX = 1;
+	int greaterY = 1;
 
 	//Arrays used to set the size of the board to 12x12
 	int[][] boardPos = new int[12][12];
@@ -64,43 +64,44 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		for(int i = 0; i<20; i++) {
 			while(true) {
 				generateRandom();
+				fencePos[i][0] = c;
+				fencePos[i][1] = r;
 				if(boardPos[c-1][r-1]==0) {
 					boardPos[c-1][r-1] = 1;
 					break;
 				}
-			}
-			fencePos[i][0] = c;
-			fencePos[i][1] = r;
-			//function draws all fences on the game
-			fence(g, calcCoord(c), calcCoord(r));
+				//function draws all fences on the game
+
+			}fence(g, calcCoord(c), calcCoord(r));
 		}
 		/* For loop is used to position each of the mhos on the interior
 		of the game randomly each time the program is run */
 		for(int i = 0; i<12; i++) {
 			while(true) {
 				generateRandom();
+				mhoPos[i][0] = c;
+				mhoPos[i][1] = r;
 				if(boardPos[c-1][r-1]==0) {
 					boardPos[c-1][r-1] = 2;
 					break;
 				}
 			}
-			mhoPos[i][0] = c;
-			mhoPos[i][1] = r;
 			//function draws all mhos of the game
 			mho(g, calcCoord(c), calcCoord(r));
 		}
 		//while loop is used to position the fences on the exterior of the game
 		while(true) {
 			generateRandom();
+			counterPos[0] = c;
+			counterPos[1] = r;
 			if(boardPos[c-1][r-1]==0) {
 				boardPos[c-1][r-1] = 3;
-				counterPos[0] = c;
-				counterPos[1] = r;
 				break;
 			}
 		}
-		//places external fences on the board
 		counter(g, calcCoord(c), calcCoord(r));
+
+		//places external fences on the board
 		for(int i = 30; i<=12*30; i+=30) {
 			fence(g, 50, i+20);
 			fence(g, 380, i+20);
@@ -118,23 +119,25 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 	}
 	//This figures out whether the mho is alive or dead at a given position
 	public boolean isDeadMho(int newPosX, int newPosY) {
-		//for(int col = 0; col<12; col++) {
-		//	for(int row = 0; row<12; row++) {
 		if((boardPos[newPosX-1][newPosY-1]==1)) {
 			return true;
 		}
-			//}
-		//}
 		return false;
 	}
-	
+
 	public void generateRandom() {
+		//while(true) {
 		c = rand.nextInt(10);
 		c += 2;
 		r = rand.nextInt(10);
 		r += 2;
+		//if(boardPos[c-1][r-1]==0) {
+		//	boardPos[c-1][r-1] = 2;
+		//	break;
+		//}
+		//}
 	}
-	
+
 	/**
 	 * This method contains the math to create the graphical items of the boardgame
 	 * @param g helps draw the lines, arcs, and ovals necessary to create the fences
@@ -222,71 +225,31 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				int row = mhoPos[mho][1];
 
 				if(counterPos[0]-col>0) {
-					greaterX = 1;
+					greaterX = -1;
 				}
 				if(counterPos[1]-row>0) {
-					greaterY = 1;
+					greaterY = -1;
 				}
 
 				if(col==counterPos[0]) {
 					if(row<counterPos[1]&&boardPos[col-1][row]!=2) {
-						//paints black color over mho to get rid of each one visually
-						coverSquare(g, col, row);
-						if(isDeadMho(col, row+1)) {
-							boardPos[col-1][row-1] = 0;
-							mhoPos[mho][0] = 13;
-						}
-						else {
-							mho(g, calcCoord(col), calcCoord(row+1));
-							boardPos[col-1][row-1] = 0;
-							boardPos[col-1][row] = 2;
-							mhoPos[mho][1] += 1;
-						}
+						moveMhoUpDown(g, col, row, mho, 0, 1);
 					}
 					else if(row>counterPos[1]&&boardPos[col-1][row-2]!=2) {
-						coverSquare(g, col, row);
-						if(isDeadMho(col, row-1)) {
-							boardPos[col-1][row-1] = 0;
-							mhoPos[mho][0] = 13;
-						}
-						else {
-							mho(g, calcCoord(col), calcCoord(row-1));
-							boardPos[col-1][row-1] = 0;
-							boardPos[col-1][row-2] = 2;
-							mhoPos[mho][1] -= 1;
-						}
+						moveMhoUpDown(g, col, row, mho, 0, -1);
 					}
 				}
 				else if(row==counterPos[1]) {
 					if(col<counterPos[0]&&boardPos[col][row-1]!=2) {
-						coverSquare(g, col, row);
-						if(isDeadMho(col+1, row)) {
-							boardPos[col-1][row-1] = 0;
-							mhoPos[mho][0] = 13;
-						}
-						else {
-							mho(g, calcCoord(col+1), calcCoord(row));
-							boardPos[col-1][row-1] = 0;
-							boardPos[col][row-1] = 2;
-							mhoPos[mho][0] += 1;
-						}
+						moveMhoUpDown(g, col, row, mho, 1, 0);
 					}
 
 					else if(col>counterPos[0]&&boardPos[col-2][row-1]!=2) {
-						coverSquare(g, col, row);
-						if(isDeadMho(col-1, row)) {
-							boardPos[col-1][row-1] = 0;
-							mhoPos[mho][0] = 13;
-						}
-						else {
-							mho(g, calcCoord(col-1), calcCoord(row));
-							boardPos[col-1][row-1] = 0;
-							boardPos[col-2][row-1] = 2;
-							mhoPos[mho][0] -= 1;
-						}
+						moveMhoUpDown(g, col, row, mho, -1, 0);
 					}
 				}
-				else if(col>counterPos[0]&&row>counterPos[1]&&!isDeadMho(col-1, row-1)&&boardPos[col-1][row-1]!=2) {
+
+				else if(col>counterPos[0]&&row>counterPos[1]&&!isDeadMho(col-1, row-1)&&boardPos[col-2][row-2]!=2) {
 					coverSquare(g, col, row);
 					rePaintMho(g, col, row, mho, -1, -1);
 				}
@@ -302,6 +265,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 					coverSquare(g, col, row);
 					rePaintMho(g, col, row, mho, 1, 1);
 				}
+
 				else if(Math.abs(counterPos[0]-col)>=Math.abs(counterPos[1]-row)&&!isDeadMho(col+greaterX, row)&&boardPos[col-1+greaterX][row-1]!=2) {
 					coverSquare(g, col, row);
 					rePaintMho(g, col, row, mho, greaterX, 0);
@@ -310,7 +274,10 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 					coverSquare(g, col, row);
 					rePaintMho(g, col, row, mho, 0, greaterY);
 				}
-
+				
+				else if(!isSurroundedByMhos(col, row)) {
+					coverSquare(g, col-1, row-1);
+				}
 			}
 			if(isDeadPlayer(counterPos[0], counterPos[1])) {
 				dead(g);
@@ -330,141 +297,126 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(500, 40, 80, 10);
 	}
-	
+
 	public void coverSquare(Graphics g, int col, int row) {
 		g.setColor(Color.BLACK);
 		g.fillRect(calcCoord(col)-1, calcCoord(row)-1, 22, 22);
 		g.setColor(Color.YELLOW);
 	}
-	
+
 	public void rePaintMho(Graphics g, int col, int row, int mho, int upX, int upY) {
-		if(boardPos[col-1+upX][row-1+upY]!=1) {
-			mho(g, calcCoord(col+upX), calcCoord(row+upY));
-		}
+		mho(g, calcCoord(col+upX), calcCoord(row+upY));
 		boardPos[col-1][row-1] = 0;
 		boardPos[col-1+upX][row-1+upY] = 2;
 		mhoPos[mho][0] += upX;
 		mhoPos[mho][1] += upY;
 	}
-	
+
+	public void moveMhoUpDown(Graphics g, int col, int row, int mho, int x, int y) {
+		coverSquare(g, col, row);
+		if(isDeadMho(col+x, row+y)) {
+			boardPos[col-1][row-1] = 0;
+			mhoPos[mho][0] = 13;
+		}
+		else {
+			mho(g, calcCoord(col+x), calcCoord(row+y));
+			boardPos[col-1][row-1] = 0;
+			boardPos[col-1+x][row-1+y] = 2;
+			mhoPos[mho][0] += x;
+			mhoPos[mho][1] += y;
+		}
+	}
+
+	public boolean isSurroundedByMhos(int col, int row) {
+		int tempCol = col-1;
+		int tempRow = row-1;
+		if(boardPos[tempCol-1][tempRow-1]==2) {
+			return false;
+		}
+		else if(boardPos[tempCol][tempRow-1]==2){
+			return false;
+		}
+		else if(boardPos[tempCol+1][tempRow-1]==2){
+			return false;
+		}
+		else if(boardPos[tempCol+1][tempRow]==2){
+			return false;
+		}
+		else if(boardPos[tempCol+1][tempRow+1]==2){
+			return false;
+		}
+		else if(boardPos[tempCol][tempRow+1]==2){
+			return false;
+		}
+		else if(boardPos[tempCol-1][tempRow+1]==2){
+			return false;
+		}
+		else if(boardPos[tempCol-1][tempRow]==2){
+			return false;
+		}
+		return true;
+	}
+
+	public void moveCounter(Graphics g, int x, int y) {
+		if(isDeadPlayer(counterPos[0]+x, counterPos[1]+y)) {
+			dead(g);
+		}
+		else {
+			coverSquare(g, counterPos[0], counterPos[1]);
+			counter(g, calcCoord(counterPos[0]+x), calcCoord(counterPos[1]+y));
+			counterPos[0] += x;
+			counterPos[1] += y;
+			moveMho(g);
+			win(g);
+		}
+
+	}
+
 	/**
 	 * This method moves player up one position from its original spot
 	 * @param g
 	 */
 	public void up(Graphics g) {
-		if(isDeadPlayer(counterPos[0], counterPos[1]-1)) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]), calcCoord(counterPos[1]-1));
-			counterPos[1] -= 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, 0, -1);
 	}
 	/**
 	 * This method moves the player one space downwards from its original spot
 	 * @param g
 	 */
 	public void down(Graphics g) {
-		if(isDeadPlayer(counterPos[0], counterPos[1]+1)) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]), calcCoord(counterPos[1]+1));
-			counterPos[1] += 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, 0, 1);
 	}
 	//method for moving to the right
 	public void right(Graphics g) {
-		if(isDeadPlayer(counterPos[0]+1, counterPos[1])) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]+1), calcCoord(counterPos[1]));
-			counterPos[0] += 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, 1, 0);
 	}
 	//method for moving to the left
 	public void left(Graphics g) {
-		if(isDeadPlayer(counterPos[0]-1, counterPos[1])) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]-1), calcCoord(counterPos[1]));
-			counterPos[0] -= 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, -1, 0);
 	}
 	//method for moving right and upwards
 	public void rightUp(Graphics g) {
-		if(isDeadPlayer(counterPos[0]+1, counterPos[1]-1)) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]+1), calcCoord(counterPos[1]-1));
-			counterPos[0] += 1;
-			counterPos[1] -= 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, 1, -1);
 	}
 	//method for moving left and upwards
 	public void leftUp(Graphics g) {
-		if(isDeadPlayer(counterPos[0]-1, counterPos[1]-1)) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]-1), calcCoord(counterPos[1]-1));
-			counterPos[0] -= 1;
-			counterPos[1] -= 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, -1, -1);
 	}
 	//method for moving left and downwards
 	public void leftDown(Graphics g) {
-		if(isDeadPlayer(counterPos[0]-1, counterPos[1]+1)) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]-1), calcCoord(counterPos[1]+1));
-			counterPos[0] -= 1;
-			counterPos[1] += 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, -1, 1);
 	}
 	//method for moving right and downwards
 	public void rightDown(Graphics g) {
-		if(isDeadPlayer(counterPos[0]+1, counterPos[1]+1)) {
-			dead(g);
-		}
-		else {
-			coverSquare(g, counterPos[0], counterPos[1]);
-			counter(g, calcCoord(counterPos[0]+1), calcCoord(counterPos[1]+1));
-			counterPos[0] += 1;
-			counterPos[1] += 1;
-		}
-		moveMho(g);
-		win(g);
+		moveCounter(g, 1, 1);
 	}
 	//method for jumping
 	public void jump(Graphics g) {
 		generateRandom();
 		if(isDeadPlayer(c, r)) {
+			coverSquare(g, counterPos[0], counterPos[1]);
+			counter(g, calcCoord(c), calcCoord(r));
+			g.setColor(Color.YELLOW);
 			dead(g);
 		}
 		else {
@@ -472,8 +424,8 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			counter(g, calcCoord(c), calcCoord(r));
 			counterPos[0] = c;
 			counterPos[1] = r;
+			win(g);
 		}
-		win(g);
 	}
 	//method for staying at same location
 	public void sit(Graphics g) {
@@ -550,18 +502,19 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 			int y = e.getY();
 			if((x>=518&&x<=548)||(y>=140&&y<=170)) {
 				notPlay = false;
-			}
 
-			for(int i = 1; i<11; i++) {
-				for(int a = 1; a<11; a++) {
-					boardPos[i][a] = 0;
+
+				for(int i = 1; i<11; i++) {
+					for(int a = 1; a<11; a++) {
+						boardPos[i][a] = 0;
+					}
 				}
-			}
 
-			newGame = true;
-			testHiVolts.end = false;
-			first = 0;
-			repaint();
+				newGame = true;
+				testHiVolts.end = false;
+				first = 0;
+				repaint();
+			}
 		}
 	}
 	public void mousePressed(MouseEvent e) {
@@ -607,12 +560,7 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 		g.setColor(Color.YELLOW);
 
 		if(newGame) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, 1000, 1000);
-			g.setColor(Color.YELLOW);
-		}
-
-		if(first==0) {
+			g.clearRect(0, 0, 700, 750);
 			drawboard(g);
 			g.drawString("YOUR TURN", 500, 50);
 			instructions(g);
@@ -620,7 +568,6 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 
 		//testing all the controls and keys in the game
 		if(!testHiVolts.end) {
-
 			if(var==1) {
 				up(g);
 			}
@@ -652,6 +599,8 @@ public class hiVolts extends JFrame implements KeyListener, MouseListener {
 				jump(g);
 			}
 		}
+
+		var = 0;
 
 		first = 1;
 		newGame = false;
