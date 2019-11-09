@@ -16,9 +16,7 @@ Both our HiVolts class and testHiVolts class fullfill the requirement to create 
   
 c) Explanation of Current Errors
 	
-As of now, we don't have any major errors that impact the game greatly, though we have one minor error that should be taken into consideration. Our error that we cannot fix is relating to the movement of mhos each time the player moves. When Mr. Kuszmaul played our game, 
-	
-	
+As of now, we don't have any major errors that impact the game greatly, though we have one minor error that should be taken into consideration. Our error that we cannot fix is relating to the movement of mhos each time the player moves. When Mr. Kuszmaul played our game, he realized that our mhos were moving a bit irregularly everytime he made a move. We also noticed this as well and we quickly tried to fix this problem up. From the day we showed him our game until now, we were unable to solve this problem and tried multiple encounters to patch up this issue. As many times as we attempted to fix it, we were still unfortunately unable to complete the task.
 	
 d) Overview of Code Explaining the Structure of It
 
