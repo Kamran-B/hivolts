@@ -5,6 +5,10 @@ Aidan Lee and Kamran Bastani
 a) Introduction
 	
   The HiVolts class contains 
+  Include in the intro since the presentation:
+  	-  Fixed the game restart function
+	-  Jump now shows where you jumped to if you died
+	-  Abstraction + generalisation
 	
 b) How this fulfills and doesn't fulfill requirements
 
@@ -16,7 +20,7 @@ Both our HiVolts class and testHiVolts class fullfill the requirement to create 
   
 c) Explanation of Current Errors
 	
-As of now, we don't have any major errors that impact the game greatly, though we have one minor error that should be taken into consideration. Our error that we cannot fix is relating to the movement of mhos each time the player moves. When Mr. Kuszmaul played our game, he realized that our mhos were moving a bit irregularly everytime he made a move. We also noticed this as well and we quickly tried to fix this problem up. From the day we showed him our game until now, we were unable to solve this problem and tried multiple encounters to patch up this issue. As many times as we attempted to fix it, we were still unfortunately unable to complete the task.
+As of now, we don't have any major errors that impact the running of the game greatly, though we have one error that should be taken into consideration. Our error is that we cannot fix is relating to the movement of mhos each time the player moves. When Mr. Kuszmaul played our game, he noticed a bug in the way the mhos moved. We also noticed this as well and we tried to fix this problem up. From the day we showed him our game until now, we were unable to solve this problem and tried multiple encounters to solve this issue. As many times as we attempted to fix it, we were still unfortunately unable to fix the error.
 	
 d) Overview of Code Explaining the Structure of It
 
@@ -26,7 +30,7 @@ e) Major Challenges
   
   Aidan's Challenge: One of the major challenges I encountered when writing up the code was the paint method since I did the graphics section of the game. When coming upon this requirement, I did not know a way to erase the board properly and I thought that the repaint() function would help clear the screen when the user lost the game and wanted to replay it. After a day or two, I finally figured out that I could use the clearRect function or fillRect function to block the whole screen with a black rectangle to cover the previous game up. I ended up deciding to use the fillRect function because I had never used that function before and wanted to try something new. Fortunately, I was able to learn something new from using this function and was also able to complete the task.
   
-  Kamran's Challenge: One of the major challenges I encountered when writing the code was definitely the moveMho method since I worked on mostly the mechanics and logic of the game. When I first wrote the code, it took me a long time to think of the logic for how to move each of the mhos. After figuring out the logic, I was able to program each situation that each mho could possibly experience. From this, I realized that this was an extreme amount of code, almost 200 lines of code. I decided to generalize and use abstraction to shorten and simplify the code in a way to make the code shorter. After the use of both generalization and abstraction, I was able to code the moveMho code to around 100 lines. This was great for our code because it shortened our code a lot and made it more simple for a beginner coder to read.
+  Kamran's Challenge: One of the major challenges I encountered when writing the code was definitely the moveMho method since I worked on mostly the mechanics and logic of the game. When I first wrote the code, it took me a long time to think of the logic for how to move each of the mhos. After figuring out most of the logic (there is still a bug I cannot fix mentioned above), I was able to program each situation that each mho could possibly experience. Since our presentation with Mr Kuszmaul I improved the abstraction greatly, especially in the moveMho method. From this I was able to greatly reduce the size of the code, resulting in almost 150 lines of code cut. I decided to generalize and use abstraction to shorten and simplify the code in a way to make the code shorter. This was great for our code because it shortened our code a lot and made it more simple for a beginner coder to read as well as debug.
   
   
 f) Acknowledgments
