@@ -16,7 +16,7 @@ Both our HiVolts class and testHiVolts class fullfill the requirement to create 
   
 c) Explanation of Current Errors
 	
-  
+As of now, we don't have any major errors that impact the game greatly, though we have one minor error that should be taken into consideration. Our error that we cannot fix is relating to the movement of mhos each time the player moves. When Mr. Kuszmaul played our game, 
 	
 	
 	
@@ -31,9 +31,9 @@ e) Major Challenges
   Kamran's Challenge: One of the major challenges I encountered when writing the code was definitely the moveMho method since I worked on mostly the mechanics and logic of the game. When I first wrote the code, it took me a long time to think of the logic for how to move each of the mhos. After figuring out the logic, I was able to program each situation that each mho could possibly experience. From this, I realized that this was an extreme amount of code, almost 200 lines of code. I decided to generalize and use abstraction to shorten and simplify the code in a way to make the code shorter. After the use of both generalization and abstraction, I was able to code the moveMho code to around 100 lines. This was great for our code because it shortened our code a lot and made it more simple for a beginner coder to read.
   
   
-f) 	Acknowledgments
+f) Acknowledgments
 
-	
+As we finished the project, we would both like to thank both Mr. Kuszmaul and each other for being able to work together to complete such an intricate game. Mr. Kuszmaul gave us feedback that we could learn from and use in future programming and we would like to definitely thank him for that. Hopefully in the future, we'll be able to do more projects like this because both of us extremely enjoyed working together.
 
 
 	
